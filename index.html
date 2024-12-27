@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            background-color: rgb(230, 187, 194);
+            color: white;
+            text-shadow: 1px 1px 10px black;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+        }
+        .sub-container {
+            border: 2px solid black;
+            padding: 50px;
+            box-shadow: 5px 5px 10px black;
+            background: linear-gradient(45deg, lime, cyan);
+        }
+        h1 {
+            text-align: center;
+        }
+        input {
+            background-color: #171717;
+            color: white;
+            font-size: 15px;
+            padding: 5px 15px;
+            border-radius: 5px;
+            box-shadow: 5px 5px 10px black;
+            border: 1px solid transparent;
+        }
+        input:focus {
+            background-color: white;
+            color: black;
+            transition: all 0.3s ease-in;
+        }
+        input:hover {
+            background-color: white;
+            color: black;
+            transition: all 0.3s ease-in;
+        }
+        p {
+            text-align: center;
+            text-shadow: 1px 1px 10px black;
+            font-family: fantasy;
+            color: rgb(255, 153, 0);
+            font-size: 25px;
+        }
+        .button-con {
+            display: flex;
+            justify-content: center;
+        }
+        button {
+            background-color: #171717;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 15px;
+            font-family: cursive;
+            font-weight: bolder;
+            font-size: 15px;
+        }
+        /* button:focus {
+            background-color: white;
+            color: black;
+            transition: all 0.3s ease-in;
+        } */
+        button:hover {
+            background-color: white;
+            color: black;
+            transition: all 0.3s ease-in;
+        }
+        #message {
+            text-align: center;
+            color: black;
+            transition: all 0.4s ease-in-out;
+            font-size: 25px;
+            font-weight: bolder;
+        }
+    </style>
+</head>
+<body>
+    <h1>Signup Form</h1>
+    <div class="container">
+        <div class="sub-container">
+            <form id="signupForm">
+                <label for="username"><p>Username:</p></label>
+                <input type="text" id="username" required><br><br>
+                
+                <label for="email"><p>Email:</p></label>
+                <input type="email" id="email" required><br><br>
+                
+                <label for="password"><p>Password:</p></label>
+                <input type="text" id="password" required><br><br>
+                
+                <div class="button-con">
+                    <button type="submit">Sign Up</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <br>
+    <br>
+    <div id="message"></div>
+
+    <script>
+        function handleSignup(e) {
+            e.preventDefault();
+
+            let username = document.getElementById('username').value.trim();
+            let email = document.getElementById('email').value.trim();
+            let password = document.getElementById('password').value.trim();
+
+            if (!username || !email || !password) {
+                alert("Please fill out all fields.");
+                return;
+            }
+
+            let users = JSON.parse(localStorage.getItem('users')) || [];
+
+            let emailExists = users.some(user => user.email === email);
+            if (emailExists) {
+                alert("Email is already registered.");
+                return;
+            }
+
+            users.push({ username, email, password });
+            localStorage.setItem('users', JSON.stringify(users));
+
+            alert("Signup successful!");
+            document.getElementById('signupForm').reset();
+            document.getElementById('message').textContent = "Signup successful!";
+            if (confirm("Signup successful! Do you want to proceed to the next page?")) {
+            window.location.href = "login.html";
+        }
+        }
+
+        document.getElementById('signupForm').addEventListener('submit', handleSignup);
+    </script>
+</html>
